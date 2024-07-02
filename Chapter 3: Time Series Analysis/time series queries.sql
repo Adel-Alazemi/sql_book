@@ -182,6 +182,19 @@ FROM
 ;
 
 SELECT sales_year, sales
+,(sales / first_value(sales) over (order by sales_year) - 1) * 100 
+ as pct_from_index
+FROM
+(
+    SELECT date_part('year',sales_month) as sales_year
+    ,sum(sales) as sales
+    FROM retail_sales
+    WHERE kind_of_business = 'Women''s clothing stores'
+    GROUP BY 1
+) a 
+;
+
+SELECT sales_year, sales
 ,(sales / index_sales - 1) * 100 as pct_from_index
 FROM
 (
@@ -205,6 +218,7 @@ FROM
         WHERE aa.kind_of_business = 'Women''s clothing stores'
         GROUP BY 1,2
 ) aaa
+Order by 1 
 ;
 
 SELECT sales_year, kind_of_business, sales
