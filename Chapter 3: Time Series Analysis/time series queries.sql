@@ -297,6 +297,7 @@ FROM
 JOIN retail_sales b on b.sales_month between a.sales_month - interval '11 months' and a.sales_month
 and b.kind_of_business = 'Women''s clothing stores' 
 GROUP BY 1
+Order BY 1
 ;
 
 -- Calculating cumulative values
